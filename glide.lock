@@ -1,0 +1,51 @@
+hash: eace322a631c645a36ac5eaecf4b9dc2a29ed56d6fb21619f4117f10ae89ecf3
+updated: 2017-05-12T01:46:08.531966584-06:00
+imports:
+- name: github.com/gin-gonic/gin
+  version: d5b353c5d5a560322e6d96121c814115562501f7
+  subpackages:
+  - binding
+  - render
+- name: github.com/golang/protobuf
+  version: 2402d76f3d41f928c7902a765dfc872356dd3aad
+  subpackages:
+  - proto
+- name: github.com/google/go-github
+  version: fc60e1f520f17a9d4cb2c9ec522d40451f3880f7
+  subpackages:
+  - github
+- name: github.com/google/go-querystring
+  version: 53e6ce116135b80d037921a7fdd5138cf32d7a8a
+  subpackages:
+  - query
+- name: github.com/manucorporat/sse
+  version: ee05b128a739a0fb76c7ebd3ae4810c1de808d6d
+- name: github.com/mattn/go-isatty
+  version: fc9e8d8ef48496124e79ae0df75490096eccf6fe
+- name: golang.org/x/net
+  version: f315505cf3349909cdf013ea56690da34e96a451
+  subpackages:
+  - context
+- name: golang.org/x/sys
+  version: 9c9d83fe39ed3fd2d9249fcf6b755891fff54b03
+  subpackages:
+  - unix
+- name: google.golang.org/appengine
+  version: 170382fa85b10b94728989dfcf6cc818b335c952
+  subpackages:
+  - internal
+  - internal/app_identity
+  - internal/base
+  - internal/datastore
+  - internal/log
+  - internal/modules
+  - internal/remote_api
+- name: gopkg.in/gin-gonic/gin.v1
+  version: e2212d40c62a98b388a5eb48ecbdcf88534688ba
+- name: gopkg.in/go-playground/validator.v8
+  version: c193cecd124b5cc722d7ee5538e945bdb3348435
+- name: gopkg.in/rjz/githubhook.v0
+  version: d5f019004f0a15c1c9be5ac3034071ba0dff5832
+- name: gopkg.in/yaml.v2
+  version: cd8b52f8269e0feb286dfeef29f8fe4d5b397e0b
+testImports: []
