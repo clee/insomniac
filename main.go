@@ -79,7 +79,8 @@ func main() {
 		}
 		eventHeader := eventHeaders[0]
 		if eventHeader != "pull_request" {
-			log.Fatalf("error: event %s is not 'pull_request'\n", eventHeader)
+			log.Printf("event %s is not 'pull_request'\n", eventHeader)
+			return
 		}
 
 		event := github.PullRequestEvent{}
