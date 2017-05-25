@@ -28,9 +28,9 @@ public code.
 You'll need to configure two environment variables for insomniac to
 work properly.
 
-- `GITHUB\_SECRET` is used to authenticate the webhook payloads GitHub
+- `GITHUB_SECRET` is used to authenticate the webhook payloads GitHub
   sends
-- `GITHUB\_ACCESS\_TOKEN` is a personal access token insomniac uses to
+- `GITHUB_ACCESS_TOKEN` is a personal access token insomniac uses to
   grab diffs and leave Status feedback (pending, failure, or success)
 
 You can set variables in Heroku with:
