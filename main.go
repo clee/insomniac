@@ -77,12 +77,14 @@ func main() {
 	r.POST("/hook", func(c *gin.Context) {
 		hook, err := githubhook.Parse(secret, c.Request)
 		if err != nil {
-			log.Fatalf("error parsing hook: %+v", err.Error())
+			log.Printf("error parsing hook: %+v", err.Error())
+			return
 		}
 
 		eventHeaders := c.Request.Header["X-Github-Event"]
 		if len(eventHeaders) == 0 {
-			log.Fatalf("could not get X-Github-Event header!")
+			log.Printf("could not get X-Github-Event header!")
+			return
 		}
 		eventHeader := eventHeaders[0]
 		if eventHeader != "pull_request" {
@@ -93,7 +95,8 @@ func main() {
 		event := github.PullRequestEvent{}
 		err = json.Unmarshal(hook.Payload, &event)
 		if err != nil {
-			log.Fatalf("error parsing event: %+v\n", err.Error())
+			log.Printf("error parsing event: %+v\n", err.Error())
+			return
 		}
 
 		pr := event.PullRequest
@@ -103,7 +106,8 @@ func main() {
 		switch event.GetAction() {
 		case "opened", "edited", "reopened", "synchronize":
 		default:
-			log.Fatalf("action is %s\n", event.GetAction())
+			log.Printf("action is %s\n", event.GetAction())
+			return
 		}
 
 		ctx := context.Background()
@@ -118,20 +122,24 @@ func main() {
 		client.Repositories.CreateStatus(ctx, owner, repo, commit.GetSHA(), status)
 		log.Printf("setting status to pending")
 		if err != nil {
-			log.Fatalf("could not get commit %s (%s)\n", head, err.Error())
+			log.Printf("could not get commit %s (%s)\n", head, err.Error())
+			return
 		}
 		if response.StatusCode != http.StatusOK {
-			log.Fatalf("response was %d (%+v)\n", response.StatusCode, response)
+			log.Printf("response was %d (%+v)\n", response.StatusCode, response)
+			return
 		}
 
 		for commitsRemaining := pr.GetCommits(); commitsRemaining > 0; commitsRemaining-- {
 			head = commit.GetSHA()
 			commitPatch, response, err := GetCommitPatch(client, ctx, owner, repo, head)
 			if err != nil {
-				log.Fatalf("could not get commit %s patch (%s)\n", head, err.Error())
+				log.Printf("could not get commit %s patch (%s)\n", head, err.Error())
+				return
 			}
 			if response.StatusCode != http.StatusOK {
-				log.Fatalf("response was %d (%+v)\n", response.StatusCode, response)
+				log.Printf("response was %d (%+v)\n", response.StatusCode, response)
+				return
 			}
 
 			log.Printf("commit patch is: %s\n", commitPatch)
