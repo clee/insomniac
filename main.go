@@ -129,8 +129,10 @@ func main() {
 			log.Printf("commit patch is: %s\n", commitPatch)
 			if hardcodedSleepAddedIn(commitPatch) {
 				*status.State = "failure"
+				*status.Description = "no. stop it!"
 			} else {
 				*status.State = "success"
+				*status.Description = "yay!"
 			}
 			client.Repositories.CreateStatus(ctx, owner, repo, commit.GetSHA(), status)
 			commit = &commit.Parents[0]
