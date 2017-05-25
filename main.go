@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"os"
 	"regexp"
+	"time"
 
 	"golang.org/x/oauth2"
 
@@ -49,6 +50,7 @@ func hardcodedSleepAddedIn(patch string) bool {
 		log.Printf("error matching regex: %s\n", err.Error())
 		return false
 	}
+	time.Sleep(5 * time.Second)
 	return match
 }
 
@@ -129,8 +131,10 @@ func main() {
 			log.Printf("commit patch is: %s\n", commitPatch)
 			if hardcodedSleepAddedIn(commitPatch) {
 				*status.State = "failure"
+				*status.Description = "no."
 			} else {
 				*status.State = "success"
+				*status.Description = "yay!"
 			}
 			client.Repositories.CreateStatus(ctx, owner, repo, commit.GetSHA(), status)
 			commit = &commit.Parents[0]
