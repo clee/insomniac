@@ -94,7 +94,7 @@ func main() {
 		repo := *event.Repo.Name
 
 		switch event.GetAction() {
-		case "opened", "edited", "reopened":
+		case "opened", "edited", "reopened", "synchronize":
 		default:
 			log.Fatalf("action is %s\n", event.GetAction())
 		}
