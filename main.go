@@ -73,7 +73,6 @@ func main() {
 	}
 
 	r := gin.Default()
-	gin.SetMode(gin.DebugMode)
 
 	r.POST("/hook", func(c *gin.Context) {
 		hook, err := githubhook.Parse(secret, c.Request)
