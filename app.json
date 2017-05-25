@@ -1,0 +1,21 @@
+{
+	"name": "insomniac",
+	"description": "a cranky GitHub pull request review bot",
+	"keywords": [
+		"github",
+		"review",
+		"reviewbot",
+		"bot"
+	],
+	"repository": "https://github.com/clee/insomniac",
+	"website": "https://github.com/clee/insomniac",
+	"env": {
+		"GITHUB_SECRET": {
+			"description": "A secret key for verifying GitHub webhook payload signatures.",
+			"generator": "secret",
+		},
+		"GITHUB_ACCESS_TOKEN": {
+			"description": "A personal access token for getting diffs and leaving review feedback"
+		}
+	}
+}
