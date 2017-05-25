@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"os"
 	"regexp"
+	"strings"
 
 	"golang.org/x/oauth2"
 
@@ -44,12 +45,19 @@ func GetCommitPatch(c *github.Client, ctx context.Context, owner, repo, sha stri
 
 func hardcodedSleepAddedIn(patch string) bool {
 	addedSleepExpression := "^[+][^#/]*[Ss]leep[ (]+[0-9]+[ )]*"
-	match, err := regexp.MatchString(addedSleepExpression, patch)
-	if err != nil {
-		log.Printf("error matching regex: %s\n", err.Error())
-		return false
+	lines := strings.Split(patch, "\n")
+	for _, line := range lines {
+		match, err := regexp.MatchString(addedSleepExpression, line)
+		if err != nil {
+			log.Printf("error matching regex: %s\n", err.Error())
+			return false
+		}
+		if match == true {
+			return true
+		}
 	}
-	return match
+
+	return false
 }
 
 func main() {
@@ -102,9 +110,9 @@ func main() {
 		ctx := context.Background()
 		client := GitHubClient(ctx, token)
 
-		name := "insomniac"
-		state := "pending"
-		status := &github.RepoStatus{Context: &name, State: &state}
+		insomniac := "insomniac"
+		pending := "pending"
+		status := &github.RepoStatus{Context: &insomniac, State: &pending}
 
 		head := pr.Head.GetSHA()
 		commit, response, err := client.Git.GetCommit(ctx, owner, repo, head)
@@ -130,12 +138,16 @@ func main() {
 			log.Printf("commit patch is: %s\n", commitPatch)
 			if hardcodedSleepAddedIn(commitPatch) {
 				log.Printf("discovered hardcoded sleep call")
-				*status.State = "failure"
-				*status.Description = "no. stop it!"
+				failure := "failure"
+				failureDescription := "no. stop it!"
+				status.State = &failure
+				status.Description = &failureDescription
 			} else {
 				log.Printf("did not find hardcoded sleep call")
-				*status.State = "success"
-				*status.Description = "yay!"
+				success := "success"
+				successDescription := "yay!"
+				status.State = &success
+				status.Description = &successDescription
 			}
 			log.Printf("setting status to %s", *status.State)
 			client.Repositories.CreateStatus(ctx, owner, repo, commit.GetSHA(), status)
