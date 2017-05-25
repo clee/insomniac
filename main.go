@@ -109,6 +109,7 @@ func main() {
 		head := pr.Head.GetSHA()
 		commit, response, err := client.Git.GetCommit(ctx, owner, repo, head)
 		client.Repositories.CreateStatus(ctx, owner, repo, commit.GetSHA(), status)
+		log.Printf("setting status to pending")
 		if err != nil {
 			log.Fatalf("could not get commit %s (%s)\n", head, err.Error())
 		}
@@ -128,12 +129,15 @@ func main() {
 
 			log.Printf("commit patch is: %s\n", commitPatch)
 			if hardcodedSleepAddedIn(commitPatch) {
+				log.Printf("discovered hardcoded sleep call")
 				*status.State = "failure"
 				*status.Description = "no. stop it!"
 			} else {
+				log.Printf("did not find hardcoded sleep call")
 				*status.State = "success"
 				*status.Description = "yay!"
 			}
+			log.Printf("setting status to %s", *status.State)
 			client.Repositories.CreateStatus(ctx, owner, repo, commit.GetSHA(), status)
 			commit = &commit.Parents[0]
 		}
