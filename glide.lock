@@ -1,5 +1,5 @@
-hash: eace322a631c645a36ac5eaecf4b9dc2a29ed56d6fb21619f4117f10ae89ecf3
-updated: 2017-05-12T01:46:08.531966584-06:00
+hash: 25d221e7aafde909befe2e15ad2dcb48354aa3b99c1324f46754af027cccf965
+updated: 2017-05-25T02:19:24.613404618-06:00
 imports:
 - name: github.com/gin-gonic/gin
   version: d5b353c5d5a560322e6d96121c814115562501f7
@@ -26,6 +26,10 @@ imports:
   version: f315505cf3349909cdf013ea56690da34e96a451
   subpackages:
   - context
+- name: golang.org/x/oauth2
+  version: f047394b6d14284165300fd82dad67edb3a4d7f6
+  subpackages:
+  - internal
 - name: golang.org/x/sys
   version: 9c9d83fe39ed3fd2d9249fcf6b755891fff54b03
   subpackages:
@@ -40,6 +44,8 @@ imports:
   - internal/log
   - internal/modules
   - internal/remote_api
+  - internal/urlfetch
+  - urlfetch
 - name: gopkg.in/gin-gonic/gin.v1
   version: e2212d40c62a98b388a5eb48ecbdcf88534688ba
 - name: gopkg.in/go-playground/validator.v8
