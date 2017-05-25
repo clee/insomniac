@@ -44,5 +44,5 @@ Or, if you're using dokku:
 
     [insomniac] % export SECRET=$(ruby -rsecurerandom -e 'puts SecureRandom.hex(20)')
     [insomniac] % echo $SECRET | pbcopy # go paste this in the webhook config on GitHub
-    [insomniac] % dokku config:set insomniac GITHUB_SECRET=74484095bec540d2e0c4ea42232acbb9fb357e50`
+    [insomniac] % dokku config:set insomniac GITHUB_SECRET=${SECRET}
     [insomniac] % dokku config:set insomniac GITHUB_ACCESS_TOKEN=<github personal access token>
