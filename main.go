@@ -74,6 +74,10 @@ func main() {
 
 	r := gin.Default()
 
+	r.GET("/check", func(c *gin.Context) {
+		c.Status(204)
+	})
+
 	r.POST("/hook", func(c *gin.Context) {
 		hook, err := githubhook.Parse(secret, c.Request)
 		if err != nil {

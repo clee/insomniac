@@ -1,0 +1,5 @@
+WAIT=1
+ATTEMPTS=10
+TIMEOUT=60
+
+/check
