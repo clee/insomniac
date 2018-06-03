@@ -60,13 +60,12 @@ func hardcodedSleepAddedIn(patch string) bool {
 	return false
 }
 
-func main() {
-	secretenv := os.Getenv("GITHUB_SECRET")
-	if secretenv == "" {
-		log.Fatal("$GITHUB_SECRET must be set!")
-	}
-	secret := []byte(secretenv)
+func Handler() http.Handler {
+	r := router()
+	return r
+}
 
+func router() *gin.Engine {
 	token := os.Getenv("GITHUB_ACCESS_TOKEN")
 	if token == "" {
 		log.Fatal("$GITHUB_ACCESS_TOKEN must be set!")
@@ -79,7 +78,7 @@ func main() {
 	})
 
 	r.POST("/hook", func(c *gin.Context) {
-		hook, err := githubhook.Parse(secret, c.Request)
+		hook, err := githubhook.New(c.Request)
 		if err != nil {
 			log.Printf("error parsing hook: %+v", err.Error())
 			return
@@ -166,5 +165,10 @@ func main() {
 		}
 	})
 
+	return r
+}
+
+func main() {
+	r := router()
 	r.Run()
 }
